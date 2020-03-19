@@ -11,12 +11,6 @@ abstract class _GameBase with Store {
 
   FormController formController = Modular.get<FormController>();
 
-  // List<String> playersName;
-  // _GameBase(String playerOneName, String playerTwoName) {
-  //   playersName[PLAYER_ONE] = playerOneName;
-  //   playersName[PLAYER_TWO] = playerTwoName;
-  // }
-
   @observable
   List<List<int>> _gameMatrix;
 
@@ -25,9 +19,11 @@ abstract class _GameBase with Store {
 
   int winPlayer;
 
-
   @observable
   String actualPlayerName = '';
+
+  // 8 = row1, row2, row3, col1, col2, col3, diag1, diag2
+  List gameState = List.filled(8, 0);
 
   @action
   setPlayer() {
@@ -41,7 +37,10 @@ abstract class _GameBase with Store {
   }
 
   initGame() {
-    actualPlayerName = formController.playerOneName;//playersName[PLAYER_ONE];
+    winPlayer = null;
+    actualPlayerName = formController.playerOneName;
+    gameState = List.filled(8, 0);
+    turn = PLAYER_NONE;
     _gameMatrix = List(3);
     for (var i = 0; i < _gameMatrix.length; i++) {
       _gameMatrix[i] = List(3);
@@ -61,8 +60,6 @@ abstract class _GameBase with Store {
     }
   }
 
-  // 8 = row1, row2, row3, col1, col2, col3, diag1, diag2
-  List gameState = List.filled(8, 0);
   isGameOver(int x, int y) {
     int point = turn == PLAYER_ONE ? 1 : -1;
 
