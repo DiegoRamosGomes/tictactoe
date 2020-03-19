@@ -13,6 +13,25 @@ class WinPage extends StatefulWidget {
 
 class _WinPageState extends State<WinPage> {
   GameController controller = Modular.get<GameController>();
+
+  _button(String text, String routeName) {
+    return ButtonTheme(
+      buttonColor: PRIMARY_COLOR,
+      minWidth: MediaQuery.of(context).size.width / 2,
+      child: RaisedButton(
+        onPressed: () {
+          Modular.to.pushReplacementNamed(routeName);
+        },
+        child: Text(text,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold)),
+        padding: EdgeInsets.symmetric(vertical: 20),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -42,23 +61,18 @@ class _WinPageState extends State<WinPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Player ${controller.winPlayer} venceu"),
-                ButtonTheme(
-                  buttonColor: PRIMARY_COLOR,
-                  minWidth: MediaQuery.of(context).size.width - 30,
-                  child: RaisedButton(
-                    onPressed: () {
-                      Modular.to.pushReplacementNamed('/');
-                    },
-                    child: Text("Inicio",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold)),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-                  ),
-                )
+                Text(
+                  "Player ${controller.getWinPlayerName()} wins",
+                  style: TextStyle(fontSize: 26, color: PRIMARY_COLOR),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                _button("Home", "/"),
+                SizedBox(
+                  height: 30,
+                ),
+                _button("Play Again", "/game"),
               ],
             ),
           ),

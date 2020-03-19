@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tictactoe/app/modules/home/multiplayer/form/form_controller.dart';
 import 'package:tictactoe/app/utils/constants.dart';
 
 class FormPage extends StatefulWidget {
@@ -11,6 +13,8 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
+  FormController formController = Modular.get<FormController>();
+
   _input(String text, String hintText, Function onChange) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30),
@@ -90,9 +94,23 @@ class _FormPageState extends State<FormPage> {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _input('Player one', 'Name of player one', (String value) {}),
+              Observer(
+                builder: (_) {
+                  return _input('Player one', 'Name of player one',
+                      (String value) {
+                    formController.playerOneName = value;
+                  });
+                },
+              ),
               SizedBox(height: 15),
-              _input('Player two', 'Name of player two', (String value) {}),
+              Observer(
+                builder: (_) {
+                  return _input('Player two', 'Name of player two',
+                      (String value) {
+                    formController.playerTwoName = value;
+                  });
+                },
+              ),
               SizedBox(height: 30),
               _button('START GAME', () {
                 Modular.to.pushReplacementNamed('/game');

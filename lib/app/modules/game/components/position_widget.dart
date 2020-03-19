@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tictactoe/app/modules/game/game_controller.dart';
-import 'package:tictactoe/app/utils/constants.dart';
 
 class PositionWidget extends StatefulWidget {
   final double left;
@@ -33,10 +32,7 @@ class _PositionWidgetState extends State<PositionWidget> {
       onTap: () {
         if (controller.isPlayable(x, y)) {
           setState(() {
-            if (controller.turn == PLAYER_AI || controller.turn == PLAYER_ONE)
-              controller.turn = PLAYER_TWO;
-            else
-              controller.turn = PLAYER_ONE;
+            controller.setPlayer();
           });
           controller.occupePosition(x, y);
         }

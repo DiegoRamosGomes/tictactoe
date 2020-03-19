@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:tictactoe/app/modules/home/multiplayer/form/form_controller.dart';
 import 'package:tictactoe/app/utils/constants.dart';
 
 part 'game_controller.g.dart';
@@ -7,6 +8,15 @@ part 'game_controller.g.dart';
 class GameController = _GameBase with _$GameController;
 
 abstract class _GameBase with Store {
+
+  FormController formController = Modular.get<FormController>();
+
+  // List<String> playersName;
+  // _GameBase(String playerOneName, String playerTwoName) {
+  //   playersName[PLAYER_ONE] = playerOneName;
+  //   playersName[PLAYER_TWO] = playerTwoName;
+  // }
+
   @observable
   List<List<int>> _gameMatrix;
 
@@ -15,19 +25,23 @@ abstract class _GameBase with Store {
 
   int winPlayer;
 
+
   @observable
-  String actualPlayerName = "";
+  String actualPlayerName = '';
 
   @action
   setPlayer() {
-    if (turn == PLAYER_TWO || turn == PLAYER_AI) {
-      turn = PLAYER_ONE;
-    } else if (turn == PLAYER_ONE) {
+    if (turn == PLAYER_AI || turn == PLAYER_ONE) {
       turn = PLAYER_TWO;
+      actualPlayerName = formController.playerOneName;
+    } else {
+      turn = PLAYER_ONE;
+      actualPlayerName = formController.playerTwoName;
     }
   }
 
   initGame() {
+    actualPlayerName = formController.playerOneName;//playersName[PLAYER_ONE];
     _gameMatrix = List(3);
     for (var i = 0; i < _gameMatrix.length; i++) {
       _gameMatrix[i] = List(3);
@@ -85,5 +99,13 @@ abstract class _GameBase with Store {
   String icon(int x, int y) {
     if (_gameMatrix[x][y] == PLAYER_ONE) return "assets/images/game/X.svg";
     return "assets/images/game/O.svg";
+  }
+
+  String getWinPlayerName() {
+    if (winPlayer == PLAYER_ONE) {
+      return formController.playerOneName;
+    } else {
+      return formController.playerTwoName;
+    }
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tictactoe/app/modules/game/components/game_widget.dart';
 import 'package:tictactoe/app/modules/game/game_controller.dart';
+import 'package:tictactoe/app/modules/home/multiplayer/form/form_controller.dart';
 import 'package:tictactoe/app/utils/constants.dart';
 
 class GamePage extends StatefulWidget {
@@ -14,6 +16,7 @@ class GamePage extends StatefulWidget {
 
 class _GamePageState extends State<GamePage> {
   GameController controller = Modular.get<GameController>();
+  FormController formController = Modular.get<FormController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +36,21 @@ class _GamePageState extends State<GamePage> {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-              leading: new IconButton(
-                icon: new Icon(Icons.arrow_back_ios, color: PRIMARY_COLOR),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              centerTitle: true,
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              title: Text("Game", style: TextStyle(color: PRIMARY_COLOR))),
+            leading: new IconButton(
+              icon: new Icon(Icons.arrow_back_ios, color: PRIMARY_COLOR),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Observer(
+              builder: (_) {
+                return Text(
+                    "${controller.actualPlayerName}' turn".toUpperCase(),
+                    style: TextStyle(color: PRIMARY_COLOR));
+              },
+            ),
+          ),
           body: GameWidget(),
         )
       ],

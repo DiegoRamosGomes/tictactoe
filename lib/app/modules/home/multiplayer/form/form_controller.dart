@@ -6,10 +6,10 @@ class FormController = _FormBase with _$FormController;
 
 abstract class _FormBase with Store {
   @observable
-  int value = 0;
+  String playerOneName = "";
 
-  @action
-  void increment() {
-    value++;
-  }
+  @observable
+  String playerTwoName = "";
+
+
 }

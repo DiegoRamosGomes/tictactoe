@@ -9,38 +9,44 @@ part of 'form_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$FormController on _FormBase, Store {
-  final _$valueAtom = Atom(name: '_FormBase.value');
+  final _$playerOneNameAtom = Atom(name: '_FormBase.playerOneName');
 
   @override
-  int get value {
-    _$valueAtom.context.enforceReadPolicy(_$valueAtom);
-    _$valueAtom.reportObserved();
-    return super.value;
+  String get playerOneName {
+    _$playerOneNameAtom.context.enforceReadPolicy(_$playerOneNameAtom);
+    _$playerOneNameAtom.reportObserved();
+    return super.playerOneName;
   }
 
   @override
-  set value(int value) {
-    _$valueAtom.context.conditionallyRunInAction(() {
-      super.value = value;
-      _$valueAtom.reportChanged();
-    }, _$valueAtom, name: '${_$valueAtom.name}_set');
+  set playerOneName(String value) {
+    _$playerOneNameAtom.context.conditionallyRunInAction(() {
+      super.playerOneName = value;
+      _$playerOneNameAtom.reportChanged();
+    }, _$playerOneNameAtom, name: '${_$playerOneNameAtom.name}_set');
   }
 
-  final _$_FormBaseActionController = ActionController(name: '_FormBase');
+  final _$playerTwoNameAtom = Atom(name: '_FormBase.playerTwoName');
 
   @override
-  void increment() {
-    final _$actionInfo = _$_FormBaseActionController.startAction();
-    try {
-      return super.increment();
-    } finally {
-      _$_FormBaseActionController.endAction(_$actionInfo);
-    }
+  String get playerTwoName {
+    _$playerTwoNameAtom.context.enforceReadPolicy(_$playerTwoNameAtom);
+    _$playerTwoNameAtom.reportObserved();
+    return super.playerTwoName;
+  }
+
+  @override
+  set playerTwoName(String value) {
+    _$playerTwoNameAtom.context.conditionallyRunInAction(() {
+      super.playerTwoName = value;
+      _$playerTwoNameAtom.reportChanged();
+    }, _$playerTwoNameAtom, name: '${_$playerTwoNameAtom.name}_set');
   }
 
   @override
   String toString() {
-    final string = 'value: ${value.toString()}';
+    final string =
+        'playerOneName: ${playerOneName.toString()},playerTwoName: ${playerTwoName.toString()}';
     return '{$string}';
   }
 }
