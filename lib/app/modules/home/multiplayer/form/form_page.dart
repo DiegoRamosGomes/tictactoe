@@ -112,9 +112,7 @@ class _FormPageState extends State<FormPage> {
                 },
               ),
               SizedBox(height: 30),
-              _button('START GAME', () {
-                Modular.to.pushReplacementNamed('/game');
-              })
+              _button('START GAME', () => formController.startGame())
             ],
           ),
         )
