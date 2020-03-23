@@ -63,20 +63,30 @@ mixin _$GameController on _GameBase, Store {
   final _$_GameBaseActionController = ActionController(name: '_GameBase');
 
   @override
-  dynamic setPlayer() {
+  dynamic setPlayer(dynamic x, dynamic y) {
     final _$actionInfo = _$_GameBaseActionController.startAction();
     try {
-      return super.setPlayer();
+      return super.setPlayer(x, y);
     } finally {
       _$_GameBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic getTurnObject() {
+  String icon(int x, int y) {
     final _$actionInfo = _$_GameBaseActionController.startAction();
     try {
-      return super.getTurnObject();
+      return super.icon(x, y);
+    } finally {
+      _$_GameBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic occupePosition(int x, int y) {
+    final _$actionInfo = _$_GameBaseActionController.startAction();
+    try {
+      return super.occupePosition(x, y);
     } finally {
       _$_GameBaseActionController.endAction(_$actionInfo);
     }

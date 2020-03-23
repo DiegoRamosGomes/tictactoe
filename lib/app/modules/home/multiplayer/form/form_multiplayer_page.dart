@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tictactoe/app/modules/home/multiplayer/form/form_controller.dart';
+import 'package:tictactoe/app/modules/home/form_controller.dart';
 import 'package:tictactoe/app/utils/constants.dart';
 
-class FormPage extends StatefulWidget {
+class FormMultiplayerPage extends StatefulWidget {
   final String title;
-  const FormPage({Key key, this.title = "MULTIPLAYER"}) : super(key: key);
+  const FormMultiplayerPage({Key key, this.title = "MULTIPLAYER"}) : super(key: key);
 
   @override
-  _FormPageState createState() => _FormPageState();
+  _FormMultiplayerPageState createState() => _FormMultiplayerPageState();
 }
 
-class _FormPageState extends State<FormPage> {
+class _FormMultiplayerPageState extends State<FormMultiplayerPage> {
   FormController formController = Modular.get<FormController>();
 
   _input(String text, String hintText, Function onChange) {

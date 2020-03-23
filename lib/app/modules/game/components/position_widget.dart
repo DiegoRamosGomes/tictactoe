@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tictactoe/app/modules/game/game_controller.dart';
+import 'package:tictactoe/app/utils/constants.dart';
 
 class PositionWidget extends StatefulWidget {
   final double left;
@@ -30,12 +31,15 @@ class _PositionWidgetState extends State<PositionWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (controller.isPlayable(x, y)) {
-          setState(() {
-            controller.setPlayer();
-          });
-          controller.occupePosition(x, y);
+        setState(() {
+          controller.setPlayer(x, y);
+        });
+        if (controller.formController.gameLevel != GAME_LEVEL_NONE) {
+          print("Level: ${controller.formController.gameLevel}");
+          print("Player: ${controller.turn}");
+          controller.setPlayer(2, 2);
         }
+        print(controller.gameState);
       },
       child: Padding(
         padding: EdgeInsets.only(left: left, top: top),

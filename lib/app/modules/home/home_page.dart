@@ -53,7 +53,9 @@ class _HomePageState extends State<HomePage> {
               Modular.to.pushNamed('/multiplayer');
             }),
             SizedBox(height: 20),
-            _button("ONE PLAYER", () {}),
+            _button("ONE PLAYER", () {
+              Modular.to.pushNamed('/one-player');
+            }),
             SizedBox(height: 20),
             _button("SETTINGS", () {}),
           ],
