@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:tictactoe/app/modules/home/multiplayer/form/form_controller.dart';
+import 'package:tictactoe/app/modules/home/form_controller.dart';
 import 'package:tictactoe/app/utils/constants.dart';
 
 part 'game_controller.g.dart';
@@ -8,50 +8,74 @@ part 'game_controller.g.dart';
 class GameController = _GameBase with _$GameController;
 
 abstract class _GameBase with Store {
-
-  FormController formController = Modular.get<FormController>();
-
   @observable
   List<List<int>> _gameMatrix;
 
   @observable
   int turn = PLAYER_NONE;
 
-  int winPlayer;
-
   @observable
   String actualPlayerName = '';
+
+  FormController formController = Modular.get<FormController>();
+
+  int winPlayer;
 
   // 8 = row1, row2, row3, col1, col2, col3, diag1, diag2
   List gameState = List.filled(8, 0);
 
   @action
-  setPlayer() {
-    if (turn == PLAYER_AI || turn == PLAYER_ONE) {
-      turn = PLAYER_TWO;
-      actualPlayerName = formController.playerOneName;
-    } else {
-      turn = PLAYER_ONE;
-      actualPlayerName = formController.playerTwoName;
+  setPlayer(x, y) {
+    print('a1');
+    if (isPlayable(x, y)) {
+      print('a2');
+      occupePosition(x, y);
+      if (turn == PLAYER_ONE) {
+        print('if');
+        turn = PLAYER_TWO;
+        actualPlayerName = formController.playerTwoName;
+        setPlayer(2, 2);
+      } else {
+        print('else');
+        turn = PLAYER_ONE;
+        actualPlayerName = formController.playerOneName;
+        // occupePosition(2, 2);
+      }
     }
   }
 
   initGame() {
+    print(turn);
+    if (formController.playerOneName.isEmpty &&
+        formController.playerTwoName.isEmpty) {
+      formController.playerOneName = 'Player One';
+      formController.playerTwoName = 'AI';
+    }
     winPlayer = null;
     actualPlayerName = formController.playerOneName;
     gameState = List.filled(8, 0);
-    turn = PLAYER_NONE;
+    turn = PLAYER_ONE;
     _gameMatrix = List(3);
-    for (var i = 0; i < _gameMatrix.length; i++) {
+    for (int i = 0; i < _gameMatrix.length; i++) {
       _gameMatrix[i] = List(3);
-      for (var j = 0; j < _gameMatrix[i].length; j++) {
+      for (int j = 0; j < _gameMatrix[i].length; j++) {
         _gameMatrix[i][j] = PLAYER_NONE;
       }
     }
   }
 
-  isPlayable(int x, int y) => _gameMatrix[x][y] == PLAYER_NONE;
+  @action
+  String icon(int x, int y) => _gameMatrix[x][y] == PLAYER_ONE
+      ? "assets/images/game/X.svg"
+      : "assets/images/game/O.svg";
 
+  String getWinPlayerName() => winPlayer == PLAYER_ONE
+      ? formController.playerOneName
+      : formController.playerTwoName;
+
+  bool isPlayable(int x, int y) => _gameMatrix[x][y] == PLAYER_NONE;
+
+  @action
   occupePosition(int x, int y) {
     _gameMatrix[x][y] = turn;
     if (isGameOver(x, y)) {
@@ -81,28 +105,5 @@ abstract class _GameBase with Store {
     int i = gameState.indexOf(3);
     int j = gameState.indexOf(-3);
     return (i >= 0 || j >= 0);
-  }
-
-  @action
-  getTurnObject() {
-    if (this.turn == PLAYER_NONE)
-      return null;
-    else if (this.turn == PLAYER_ONE)
-      return 'assets/images/game/X.svg';
-    else
-      return 'assets/images/game/O.svg';
-  }
-
-  String icon(int x, int y) {
-    if (_gameMatrix[x][y] == PLAYER_ONE) return "assets/images/game/X.svg";
-    return "assets/images/game/O.svg";
-  }
-
-  String getWinPlayerName() {
-    if (winPlayer == PLAYER_ONE) {
-      return formController.playerOneName;
-    } else {
-      return formController.playerTwoName;
-    }
   }
 }
